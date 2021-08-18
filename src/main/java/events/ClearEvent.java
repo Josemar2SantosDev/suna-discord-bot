@@ -1,5 +1,6 @@
 package events;
 
+import com.suna.SunaBot;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
@@ -13,7 +14,7 @@ public class ClearEvent extends ListenerAdapter {
     public void onGuildMessageReceived(GuildMessageReceivedEvent event) {
         String[] args = event.getMessage().getContentRaw().split("\\s+");
 
-        if (args[0].equalsIgnoreCase("limpar")) {
+        if (args[0].equalsIgnoreCase(SunaBot.prefix + "limpar")) {
             if (args.length < 2) {
 
                 EmbedBuilder msg = new EmbedBuilder();
@@ -44,13 +45,14 @@ public class ClearEvent extends ListenerAdapter {
 
 //                     user não usou números [solução]
                     } else if (e.toString().startsWith("java.lang.NumberFormatException: For input string")) {
+
                         EmbedBuilder msgErro = new EmbedBuilder();
                         msgErro.setColor(Color.decode("#CC5547"));
                         msgErro.setTitle("Algo deu errado ... 🤨");
                         msgErro.setDescription("Comando: **Limpar [número de msgs]**");
                         event.getChannel().sendMessage(msgErro.build()).queue();
                     } else {
-                        e.printStackTrace();
+
                         EmbedBuilder msgErro = new EmbedBuilder();
                         msgErro.setColor(Color.decode("#CC5547"));
                         msgErro.setTitle("Algo deu errado ... 🤨");

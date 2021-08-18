@@ -20,7 +20,7 @@ public class HelloEvent extends ListenerAdapter {
             System.out.println("teste");
         }
 //        evento hello
-        if (messageSent[0].equalsIgnoreCase(SunaBot.prefix+"suna")) {
+        if (messageSent[0].equalsIgnoreCase(SunaBot.prefix + "suna")) {
             EmbedBuilder msg = new EmbedBuilder();
             msg.setColor(Color.decode("#227AFF"));
             int random = (int) Math.floor(Math.random() * phrases.length);
@@ -29,7 +29,7 @@ public class HelloEvent extends ListenerAdapter {
 
         }
 //        eventos talishow
-        if (messageSent[0].equalsIgnoreCase("talisson") | messageSent[0].equalsIgnoreCase("tatim")) {
+        if (messageSent[0].equalsIgnoreCase(SunaBot.prefix + "talisson") | messageSent[0].equalsIgnoreCase("tatim")) {
             EmbedBuilder msg = new EmbedBuilder();
             msg.setColor(Color.decode("#227AFF"));
             int random = (int) Math.floor(Math.random() * talishow.length);
