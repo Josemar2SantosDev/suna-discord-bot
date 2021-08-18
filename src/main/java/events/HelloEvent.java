@@ -1,5 +1,6 @@
 package events;
 
+import com.suna.SunaBot;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -15,13 +16,15 @@ public class HelloEvent extends ListenerAdapter {
     public void onGuildMessageReceived(GuildMessageReceivedEvent event) {
         String messageSent[] = event.getMessage().getContentRaw().split("\\s+");
         String nameUser = event.getMember().getUser().getName();
-
+        if (messageSent.length == 0) {
+            System.out.println("teste");
+        }
 //        evento hello
-        if (messageSent[0].equalsIgnoreCase("suna")) {
+        if (messageSent[0].equalsIgnoreCase(SunaBot.prefix+"suna")) {
             EmbedBuilder msg = new EmbedBuilder();
             msg.setColor(Color.decode("#227AFF"));
             int random = (int) Math.floor(Math.random() * phrases.length);
-            msg.setDescription("**"+phrases[random]+"**");
+            msg.setDescription("**" + phrases[random] + "**");
             event.getChannel().sendMessage(msg.build()).queue();
 
         }
@@ -30,8 +33,9 @@ public class HelloEvent extends ListenerAdapter {
             EmbedBuilder msg = new EmbedBuilder();
             msg.setColor(Color.decode("#227AFF"));
             int random = (int) Math.floor(Math.random() * talishow.length);
-            msg.setDescription("**"+talishow[random]+"**");
-            event.getChannel().sendMessage(msg.build()).queue();;
+            msg.setDescription("**" + talishow[random] + "**");
+            event.getChannel().sendMessage(msg.build()).queue();
+            ;
         }
     }
 }
