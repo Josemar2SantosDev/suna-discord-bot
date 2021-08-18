@@ -12,8 +12,10 @@ public class ClearEvent extends ListenerAdapter {
 
     public void onGuildMessageReceived(GuildMessageReceivedEvent event) {
         String[] args = event.getMessage().getContentRaw().split("\\s+");
+
         if (args[0].equalsIgnoreCase("limpar")) {
             if (args.length < 2) {
+
                 EmbedBuilder msg = new EmbedBuilder();
                 msg.setColor(Color.decode("#227AFF"));
                 msg.setTitle("Posso limpar o chat? 🧹");
@@ -24,31 +26,38 @@ public class ClearEvent extends ListenerAdapter {
                 try {
                     List<Message> messages = event.getChannel().getHistory().retrievePast(Integer.parseInt(args[1])).complete();
                     event.getChannel().deleteMessages(messages).queue();
-//                    sucess embed
                     EmbedBuilder msgSucess = new EmbedBuilder();
+
                     msgSucess.setColor(Color.decode("#7fff7f"));
                     msgSucess.setTitle("Limpinho ✨");
                     msgSucess.setDescription(args[1] + " mensagens foram deletadas.");
                     event.getChannel().sendMessage(msgSucess.build()).queue();
+
                 } catch (IllegalArgumentException e) {
-//                    error catch
-                    if (e.toString().startsWith("java.lang.IllegalArgumentException: Message retrieval limit") |
-                            e.toString().startsWith("java.lang.IllegalArgumentException: Must provide at least 2 or at most 100 messages")) {
+                    if (e.toString().startsWith("java.lang.IllegalArgumentException: Message retrieval limit")) {
+                        e.printStackTrace();
                         EmbedBuilder msgErro = new EmbedBuilder();
                         msgErro.setColor(Color.decode("#CC5547"));
                         msgErro.setTitle("Algo deu errado ... 🤨");
                         msgErro.setDescription("Só posso apagar entre 2 a 100 mensagens.");
                         event.getChannel().sendMessage(msgErro.build()).queue();
-                    }
-//                    TODO 1. realizar testes;
-//                    TODO 2. terminar de ver o video no ytb;
-//
-//                    EmbedBuilder msgErro = new EmbedBuilder();
-//                    msgErro.setColor(Color.decode("#EEC7C3"));
-//                    msgErro.setTitle("Algo deu errado ... 😢");
-//                    msgErro.setDescription("Só posso deletar entre 1 a 100 mensagens!");
-//                    event.getChannel().sendMessage(msgErro.build()).queue();
 
+//                     user não usou números [solução]
+                    } else if (e.toString().startsWith("java.lang.NumberFormatException: For input string")) {
+                        EmbedBuilder msgErro = new EmbedBuilder();
+                        msgErro.setColor(Color.decode("#CC5547"));
+                        msgErro.setTitle("Algo deu errado ... 🤨");
+                        msgErro.setDescription("Comando: **Limpar [número de msgs]**");
+                        event.getChannel().sendMessage(msgErro.build()).queue();
+                    } else {
+                        e.printStackTrace();
+                        EmbedBuilder msgErro = new EmbedBuilder();
+                        msgErro.setColor(Color.decode("#CC5547"));
+                        msgErro.setTitle("Algo deu errado ... 🤨");
+                        msgErro.setDescription("Mensagens com mais de 2 semanas não podem ser deletadas.");
+                        event.getChannel().sendMessage(msgErro.build()).queue();
+
+                    }
                 }
             }
         }
